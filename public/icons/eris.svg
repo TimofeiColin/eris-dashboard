@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-610 -610 1220 1220" fill="#000">
+  <circle r="575" fill="none" stroke="#000" stroke-width="60"/>
+  <rect x="-48" y="-590" width="96" height="1180"/>
+  <path id="crescent" d="M -409 -215 A 274 274 0 1 1 -409 215 A 243 243 0 1 0 -409 -215 Z"/>
+  <use href="#crescent" transform="scale(-1 1)"/>
+</svg>
