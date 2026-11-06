@@ -1,6 +1,6 @@
 import chevronLeftIcon from '@material-symbols/svg-400/outlined/chevron_left.svg'
 import chevronRightIcon from '@material-symbols/svg-400/outlined/chevron_right.svg'
-import { Button } from '../buttons'
+import { Button } from '../button'
 
 interface PaginationProps {
   page: number

@@ -1,12 +1,12 @@
 import { Icon } from '../../components/icon'
 import { Card } from '../../components/card'
-import { getDashboardStats } from '../../api'
-import { useFetch } from '../../utils'
+import { dashboardApi } from '../../api'
+import { useFetch } from '../../hooks'
 import { ErrorMessage } from '../../components/feedback'
 import { cards } from './cards.ts'
 
 function Dashboard() {
-  const { data: stats, error, loading } = useFetch(getDashboardStats)
+  const { data: stats, error, loading } = useFetch(dashboardApi.getStats)
 
   return (
     <section className="relative flex flex-col items-center pt-8 text-center sm:pt-14">

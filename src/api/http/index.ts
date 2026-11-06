@@ -1,0 +1,5 @@
+export { http } from './client.ts'
+export type { RequestOptions } from './client.ts'
+export { httpDashboardApi } from './dashboard.ts'
+export { httpColorGroupsApi } from './colorGroups.ts'
+export { httpColorsApi } from './colors.ts'

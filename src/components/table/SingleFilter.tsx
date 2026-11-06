@@ -1,8 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import searchIcon from '@material-symbols/svg-400/outlined/search.svg'
-import closeIcon from '@material-symbols/svg-400/outlined/close.svg'
-import { Button } from '../buttons'
-import { TextInput } from '../inputs'
+import { Button } from '../button'
+import { TextInput } from '../input'
 
 interface SingleFilterProps {
   placeholder: string
@@ -18,6 +17,7 @@ function SingleFilter({
   className = '',
 }: SingleFilterProps) {
   const [value, setValue] = useState(defaultValue)
+  const isActive = !!defaultValue
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -30,7 +30,7 @@ function SingleFilter({
   }
 
   return (
-    <form role="search" onSubmit={handleSubmit} className={`flex gap-3 ${className}`}>
+    <form role="search" onSubmit={handleSubmit} className={`flex flex-wrap gap-3 ${className}`}>
       <TextInput
         type="search"
         label={placeholder}
@@ -39,20 +39,14 @@ function SingleFilter({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
-        className="w-full sm:max-w-xs"
-        trailing={
-          value && (
-            <Button
-              variant="ghost"
-              size="sm"
-              icon={closeIcon}
-              onClick={handleClear}
-              aria-label="Clear filter"
-            />
-          )
-        }
+        className="min-w-0 flex-1 sm:max-w-xs"
       />
       <Button type="submit">Search</Button>
+      {isActive && (
+        <Button variant="ghost" onClick={handleClear}>
+          Clear
+        </Button>
+      )}
     </form>
   )
 }

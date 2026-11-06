@@ -1,6 +1,6 @@
-import { FormModal } from '../../components/modals'
+import { FormModal } from '../../components/modal'
 import { ErrorMessage } from '../../components/feedback'
-import { deleteColorGroup, type ColorGroup } from '../../api'
+import { colorGroupsApi, type ColorGroup } from '../../api'
 
 interface DeleteGroupModalProps {
   group: ColorGroup
@@ -12,7 +12,7 @@ function DeleteGroupModal({ group, onClose, onDeleted }: DeleteGroupModalProps) 
   const hasColors = group.colorsCount > 0
 
   const handleSubmit = async () => {
-    await deleteColorGroup(group._id)
+    await colorGroupsApi.remove(group._id)
     onDeleted()
   }
 

@@ -1,7 +1,7 @@
 import type { Key, ReactNode } from 'react'
 import Modal from './Modal.tsx'
 import { DataState } from '../feedback'
-import { useFetch } from '../../utils'
+import { useFetch } from '../../hooks'
 
 interface ListModalProps<T> {
   title: string

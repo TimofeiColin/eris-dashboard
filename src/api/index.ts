@@ -1,21 +1,12 @@
-export { http, ApiError } from './client.ts'
-export type { RequestOptions } from './client.ts'
-export { getDashboardStats } from './dashboard.ts'
-export type { DashboardStats } from './dashboard.ts'
-export {
-  getColorGroups,
-  checkColorGroupExists,
-  createColorGroup,
-  updateColorGroup,
-  deleteColorGroup,
-} from './colorGroups.ts'
-export type {
-  ColorGroup,
-  ColorGroupsParams,
-  ColorGroupsResponse,
-  ColorGroupExistsResponse,
-  CreateColorGroupBody,
-  UpdateColorGroupBody,
-} from './colorGroups.ts'
-export { getColorsByGroup } from './colors.ts'
-export type { Color } from './colors.ts'
+import type { ColorGroupsApi, ColorsApi, DashboardApi } from './contracts'
+import { httpColorGroupsApi, httpColorsApi, httpDashboardApi } from './http'
+import { mockColorGroupsApi, mockColorsApi, mockDashboardApi } from './mock'
+
+export const usingMockApi = import.meta.env.VITE_USE_MOCK_API === 'true'
+
+export const dashboardApi: DashboardApi = usingMockApi ? mockDashboardApi : httpDashboardApi
+export const colorGroupsApi: ColorGroupsApi = usingMockApi ? mockColorGroupsApi : httpColorGroupsApi
+export const colorsApi: ColorsApi = usingMockApi ? mockColorsApi : httpColorsApi
+
+export { ApiError } from './errors.ts'
+export type * from './contracts'

@@ -1,13 +1,11 @@
-import { useEffect } from 'react'
-import { useSearchParams } from 'react-router'
 import paletteIcon from '@material-symbols/svg-400/outlined/palette.svg'
 import editIcon from '@material-symbols/svg-400/outlined/edit.svg'
 import deleteIcon from '@material-symbols/svg-400/outlined/delete.svg'
-import { Button } from '../../components/buttons'
+import { Button } from '../../components/button'
 import { DataState } from '../../components/feedback'
 import { Pagination, SingleFilter, Table, type TableColumn } from '../../components/table'
-import { getColorGroups, type ColorGroup } from '../../api'
-import { useFetch } from '../../utils'
+import { colorGroupsApi, type ColorGroup } from '../../api'
+import { useClampPage, useFetch, useListParams } from '../../hooks'
 
 interface GroupsTableProps {
   onShowColors: (group: ColorGroup) => void
@@ -32,40 +30,18 @@ const columns: TableColumn<ColorGroup>[] = [
 ]
 
 function GroupsTable({ onShowColors, onEdit, onDelete, refreshKey = 0 }: GroupsTableProps) {
-  const [searchParams, setSearchParams] = useSearchParams()
-  const page = Math.max(1, Number(searchParams.get('page')) || 1)
-  const filter = searchParams.get('name') ?? ''
-
-  const setPage = (next: number, replace = false) =>
-    setSearchParams(
-      (params) => {
-        if (next > 1) params.set('page', String(next))
-        else params.delete('page')
-        return params
-      },
-      { replace },
-    )
-
-  const applyFilter = (value: string) =>
-    setSearchParams((params) => {
-      if (value) params.set('name', value)
-      else params.delete('name')
-      params.delete('page')
-      return params
-    })
+  const list = useListParams()
+  const { page, filter, setPage, setFilter } = list
 
   const { data, error, loading } = useFetch(
-    (signal) => getColorGroups({ page, name: filter || undefined }, signal),
+    (signal) => colorGroupsApi.list({ page, name: filter || undefined }, signal),
     [page, filter, refreshKey],
   )
 
-  const lastPage = Math.max(data?.totalPages ?? 1, 1)
-  const isPastLastPage = !loading && !!data && !data.items.length && page > lastPage
-
-  useEffect(() => {
-    if (isPastLastPage) setPage(lastPage, true)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPastLastPage, lastPage])
+  const isPastLastPage = useClampPage(
+    list,
+    loading || !data ? null : { totalPages: data.totalPages, isEmpty: !data.items.length },
+  )
 
   return (
     <>
@@ -73,7 +49,7 @@ function GroupsTable({ onShowColors, onEdit, onDelete, refreshKey = 0 }: GroupsT
         key={filter}
         placeholder="Filter by name"
         defaultValue={filter}
-        onSearch={applyFilter}
+        onSearch={setFilter}
         className="mb-10"
       />
 

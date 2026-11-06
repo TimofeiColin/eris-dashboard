@@ -1,3 +1,5 @@
+import { ApiError } from '../errors.ts'
+
 const BASE_URL = import.meta.env.VITE_API_URL
 const API_KEY = import.meta.env.VITE_API_KEY
 
@@ -6,18 +8,6 @@ type QueryParams = Record<string, string | number | boolean | null | undefined>
 export interface RequestOptions extends Omit<RequestInit, 'body' | 'method'> {
   params?: QueryParams
   body?: unknown
-}
-
-export class ApiError extends Error {
-  readonly status: number
-  readonly data: unknown
-
-  constructor(status: number, statusText: string, data: unknown) {
-    super(`${status} ${statusText}`)
-    this.name = 'ApiError'
-    this.status = status
-    this.data = data
-  }
 }
 
 function buildUrl(path: string, params?: QueryParams): string {

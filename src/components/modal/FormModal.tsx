@@ -1,6 +1,6 @@
 import { useState, type FormEvent, type ReactNode } from 'react'
 import Modal from './Modal.tsx'
-import { Button, type ButtonVariant } from '../buttons'
+import { Button, type ButtonVariant } from '../button'
 import { ErrorMessage } from '../feedback'
 
 interface FormModalProps {

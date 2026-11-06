@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react'
 import closeIcon from '@material-symbols/svg-400/outlined/close.svg'
-import { Button } from '../buttons'
+import { Button } from '../button'
 
 interface ModalProps {
   title: string
