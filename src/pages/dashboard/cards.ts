@@ -28,10 +28,10 @@ export const cards: DashboardCard[] = [
     description: 'Name colors members can pick, each with its own role and hex code.',
   },
   {
-    key: 'sayings',
-    path: paths.sayings,
-    label: 'Sayings',
+    key: 'responses',
+    path: paths.responses,
+    label: 'Responses',
     icon: formatQuoteIcon,
-    description: 'Little lines Eris can say to give the server some personality.',
+    description: 'Replies Eris sends to give the server some personality.',
   },
 ]

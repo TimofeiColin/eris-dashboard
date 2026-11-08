@@ -2,7 +2,7 @@ export const paths = {
   dashboard: '/',
   groups: '/groups',
   colors: '/colors',
-  sayings: '/sayings',
+  responses: '/responses',
   settings: '/settings',
 } as const
 

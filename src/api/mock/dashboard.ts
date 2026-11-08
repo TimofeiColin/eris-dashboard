@@ -8,7 +8,7 @@ export const mockDashboardApi: DashboardApi = {
     return {
       colorGroups: getStore().colorGroups.length,
       colors: getStore().colors.length,
-      sayings: getStore().sayings.length,
+      responses: getStore().botResponses.length,
     }
   },
 }

@@ -4,7 +4,7 @@ import { SelectInput, TextInput } from '../../components/input'
 import { ColorSwatch } from '../../components/color-swatch'
 import { colorGroupsApi, colorsApi, type Color, type CreateColorBody } from '../../api'
 import { useFetch } from '../../hooks'
-import { countLetters, MIN_NAME_LETTERS, normalizeHex } from './validation.ts'
+import { countLetters, MIN_COLOR_NAME_LETTERS, normalizeHex } from '../../lib/validation.ts'
 
 interface ColorFormModalProps {
   /** The color to edit. Leave it out to create a new one. */
@@ -27,8 +27,8 @@ function ColorFormModal({ color, onClose, onSaved }: ColorFormModalProps) {
 
   const handleSubmit = async () => {
     const trimmedName = name.trim()
-    if (countLetters(trimmedName) < MIN_NAME_LETTERS) {
-      return `The name must contain at least ${MIN_NAME_LETTERS} letters.`
+    if (countLetters(trimmedName) < MIN_COLOR_NAME_LETTERS) {
+      return `The name must contain at least ${MIN_COLOR_NAME_LETTERS} letters.`
     }
 
     if (!previewHex) {

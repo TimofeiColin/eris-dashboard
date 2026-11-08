@@ -11,4 +11,5 @@ export function normalizeHex(input: string): string | null {
 
 export const countLetters = (text: string) => text.match(/\p{L}/gu)?.length ?? 0
 
-export const MIN_NAME_LETTERS = 3
+export const MIN_COLOR_NAME_LETTERS = 3
+export const MIN_COMMAND_LETTERS = 2

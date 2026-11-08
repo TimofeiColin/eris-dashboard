@@ -1,10 +1,17 @@
 import type { Entity } from '../contracts'
-import { seedColorGroups, seedColors, seedSayings, type MockColor, type MockColorGroup } from './data.ts'
+import {
+  seedBotResponses,
+  seedColorGroups,
+  seedColors,
+  type MockBotResponse,
+  type MockColor,
+  type MockColorGroup,
+} from './data.ts'
 
 interface MockStore {
   colorGroups: MockColorGroup[]
   colors: MockColor[]
-  sayings: string[]
+  botResponses: MockBotResponse[]
 }
 
 let state: MockStore | null = null
@@ -16,7 +23,7 @@ export function getStore(): MockStore {
     state = {
       colorGroups: seedColorGroups.map((group) => ({ ...group })),
       colors: seedColors.map((color) => ({ ...color })),
-      sayings: [...seedSayings],
+      botResponses: seedBotResponses.map((r) => ({ ...r, responses: [...r.responses] })),
     }
   }
   return state

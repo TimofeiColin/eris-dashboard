@@ -9,7 +9,7 @@ import { Sidebar } from './components/sidebar'
 import { Dashboard } from './pages/dashboard'
 import { Groups } from './pages/groups'
 import { Colors } from './pages/colors'
-import Sayings from './pages/Sayings.tsx'
+import { Responses } from './pages/responses'
 import Settings from './pages/Settings.tsx'
 import { paths, type AppPath } from './navigation'
 
@@ -17,7 +17,7 @@ const pages: { path: AppPath; label: string; icon: string; component: ComponentT
   { path: paths.dashboard, label: 'Dashboard', icon: dashboardIcon, component: Dashboard },
   { path: paths.groups, label: 'Groups', icon: workspacesIcon, component: Groups },
   { path: paths.colors, label: 'Colors', icon: paletteIcon, component: Colors },
-  { path: paths.sayings, label: 'Sayings', icon: formatQuoteIcon, component: Sayings },
+  { path: paths.responses, label: 'Responses', icon: formatQuoteIcon, component: Responses },
   { path: paths.settings, label: 'Settings', icon: settingsIcon, component: Settings },
 ]
 

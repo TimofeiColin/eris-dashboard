@@ -1,12 +1,12 @@
 # Eris Dashboard
 
-A local admin dashboard for **Eris**, a Discord bot. Use it to manage the name colors members can pick, the groups those colors belong to, and the sayings Eris uses.
+A local admin dashboard for **Eris**, a Discord bot. Use it to manage the name colors members can pick, the groups those colors belong to, and the responses Eris replies with.
 
 Built with React 19, TypeScript, Vite, Tailwind CSS 4 and React Router 7.
 
 ## Features
 
-- **Dashboard**: shows how many color groups, colors and sayings there are. Each card links to its page.
+- **Dashboard**: shows how many color groups, colors and responses there are. Each card links to its page.
 - **Color groups**:
   - Browse the groups, with a name filter and page controls. The filter and page number are kept in the URL, e.g. `/groups?name=red&page=2`.
   - Create a group. Duplicate names are rejected.
@@ -18,7 +18,13 @@ Built with React 19, TypeScript, Vite, Tailwind CSS 4 and React Router 7.
   - Filter by name, or pick a group from a dropdown. The filter is kept in the URL, e.g. `/colors?groupId=5`.
   - Create and edit colors in one form: the name needs at least 3 letters and must be unique, the hex code is checked and previewed live (`#F80` is saved as `#FF8800`), and the color must belong to a group.
   - Delete a color.
-- **Sayings, Settings**: not built yet; these pages are empty placeholders.
+- **Responses**:
+  - Browse the commands Eris replies to and how many replies each has, with page controls.
+  - Filter by command, or by text in any reply. The filter is kept in the URL, e.g. `/responses?response=sleep`.
+  - See every reply of a command.
+  - Create and edit in one form: the command needs at least 2 letters, and you can add or remove reply boxes (1 to 50).
+  - Delete a command and its replies.
+- **Settings**: not built yet; the page is an empty placeholder.
 
 ## Getting started
 
@@ -44,7 +50,7 @@ Restart the dev server after changing `.env`.
 
 ### Running without the backend
 
-Set `VITE_USE_MOCK_API=true` to run against an in-memory mock API with sample groups, colors and sayings. It supports filtering, pages, creating, renaming and deleting, and takes about 400 ms to answer so loaders stay visible. Changes reset when you reload the page. Neither `VITE_API_URL` nor `VITE_API_KEY` is needed in this mode.
+Set `VITE_USE_MOCK_API=true` to run against an in-memory mock API with sample groups, colors and responses. It supports filtering, pages, creating, renaming and deleting, and takes about 400 ms to answer so loaders stay visible. Changes reset when you reload the page. Neither `VITE_API_URL` nor `VITE_API_KEY` is needed in this mode.
 
 > **Note:** Vite builds `VITE_*` variables into the JavaScript bundle, so anyone who can load the dashboard can read the API key. This is fine for local, single-user use. Don't host the built app publicly without putting the API behind a proxy or real login first.
 
@@ -63,7 +69,7 @@ Set `VITE_USE_MOCK_API=true` to run against an in-memory mock API with sample gr
 ```
 src/
 ├── api/            # Data access. Import from `api/` only: it picks the real API or the mock
-│   ├── contracts/  #   Types and one interface per resource (DashboardApi, ColorGroupsApi, ColorsApi)
+│   ├── contracts/  #   Types and one interface per resource (DashboardApi, ColorGroupsApi, ColorsApi, BotResponsesApi)
 │   ├── http/       #   Real implementations, plus client.ts (fetch wrapper: base URL, auth, JSON, errors)
 │   └── mock/       #   In-memory implementations with seed data
 ├── components/     # Reusable UI
@@ -72,18 +78,20 @@ src/
 │   ├── color-swatch/ # ColorSwatch (small square filled with a color)
 │   ├── feedback/   #   DataState (loading / error / empty states), ErrorMessage
 │   ├── icon/       #   Icon (any SVG, colored with the current text color)
-│   ├── input/      #   TextInput, SelectInput
+│   ├── input/      #   TextInput, TextArea, SelectInput
 │   ├── loader/     #   Spinner
 │   ├── modal/      #   Modal, FormModal, ListModal
 │   ├── page-header/
 │   ├── sidebar/
 │   └── table/      #   Table, Pagination, SingleFilter, MultiFilter
 ├── navigation/     # Route paths
-├── pages/          # One folder per page (Sayings and Settings are still single placeholder files)
+├── pages/          # One folder per page (Settings is still a single placeholder file)
 │   ├── dashboard/
 │   ├── groups/     #   GroupsTable, GroupFormModal (create + edit), DeleteGroupModal
-│   └── colors/     #   ColorsTable, ColorFormModal (create + edit), DeleteColorModal, validation
-└── hooks/          # useFetch, useListParams
+│   ├── colors/     #   ColorsTable, ColorFormModal (create + edit), DeleteColorModal
+│   └── responses/  #   ResponsesTable, ResponseFormModal (create + edit), DeleteResponseModal
+├── hooks/          # useFetch (loading with cancel), useListParams + useClampPage (page and filters in the URL)
+└── lib/            # Shared validation helpers (hex codes, letter counts)
 ```
 
 Each folder exports what it contains through an `index.ts`, so you import from the folder, e.g. `import { Button } from '../components/button'`.
@@ -107,6 +115,18 @@ All paths are relative to `VITE_API_URL`.
 | `POST`   | `colors`                          | Create a color                    |
 | `PATCH`  | `colors/:id`                      | Update a color                    |
 | `DELETE` | `colors/:id`                      | Delete a color                    |
+| `GET`    | `bot-responses?page=&command=&response=` | List bot responses, one page at a time |
+| `POST`   | `bot-responses`                   | Create a bot response             |
+| `PATCH`  | `bot-responses/:id`               | Update a bot response             |
+| `DELETE` | `bot-responses/:id`               | Delete a bot response             |
+
+## Known issues and next steps
+
+- Error messages from the API aren't shown in forms yet: most failures show a generic message. Only a duplicate command (409) on Responses gets its own message.
+- Pressing Escape twice can leave a modal stuck, and pressing the mouse in an input then releasing it outside the modal closes it.
+- The list pages repeat the same table, filter, pagination and modal-state code. This could become shared hooks and components (`useModal`, `usePagedList`, `ConfirmDeleteModal`).
+- The Colors page loads the group names twice, once for the filter and once for the form.
+- There are no tests yet.
 
 ## License
 

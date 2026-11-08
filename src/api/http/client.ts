@@ -61,3 +61,13 @@ export const http = {
     request<T>('PATCH', path, { ...options, body }),
   delete: <T>(path: string, options?: RequestOptions) => request<T>('DELETE', path, options),
 }
+
+/** Resolves to null instead of throwing when the API answers 404 Not Found. */
+export async function nullIfNotFound<T>(request: Promise<T>): Promise<T | null> {
+  try {
+    return await request
+  } catch (error) {
+    if (error instanceof ApiError && error.status === 404) return null
+    throw error
+  }
+}

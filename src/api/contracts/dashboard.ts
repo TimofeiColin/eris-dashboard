@@ -1,7 +1,7 @@
 export interface DashboardStats {
   colorGroups: number
   colors: number
-  sayings: number
+  responses: number
 }
 
 export interface DashboardApi {

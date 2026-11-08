@@ -21,3 +21,11 @@ export type {
   UpdateColorBody,
   ColorsApi,
 } from './colors.ts'
+export type {
+  BotResponse,
+  BotResponsesResponse,
+  BotResponsesParams,
+  CreateBotResponseBody,
+  UpdateBotResponseBody,
+  BotResponsesApi,
+} from './botResponses.ts'

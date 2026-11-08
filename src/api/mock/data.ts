@@ -91,20 +91,35 @@ export const seedColors: readonly MockColor[] = [
   { _id: 63, name: 'Khaki', hex: '#C3B091', group: 11 },
 ]
 
-export const seedSayings: string[] = [
-  'Hey there, gorgeous colors incoming!',
-  'Pick a color, any color.',
-  'Red is not a personality. Or is it?',
-  'Fresh paint, fresh you.',
-  'Beige is a choice. A brave one.',
-  'Your name looks great in that shade.',
-  'Colors make everything better.',
-  'I contain multitudes. Of hex codes.',
-  'Rainbow mode: activated.',
-  'Pastels are just colors that relaxed.',
-  'Nobody expects the neon.',
-  'Every server needs a little chaos.',
-  'Choose wisely. Or randomly.',
-  'Monochrome is so last season.',
-  'Eris approves of this color choice.',
+export interface MockBotResponse extends Entity {
+  command: string
+  responses: string[]
+}
+
+// Mirrors the bot_responses collection: { _id, command (unique, any case), responses: string[] }
+export const seedBotResponses: readonly MockBotResponse[] = [
+  { _id: 1, command: 'hello', responses: ['Hi!', 'Hey there!', 'Hello 👋'] },
+  { _id: 2, command: 'good morning', responses: ['Good morning! ☀️', 'Rise and shine!'] },
+  { _id: 3, command: 'good night', responses: ['Sleep well 🌙', 'Sweet dreams!', 'Night night!'] },
+  { _id: 4, command: 'thanks eris', responses: ['Anytime!', 'You got it 💜'] },
+  {
+    _id: 5,
+    command: 'pick a color',
+    responses: ['Pick a color, any color.', 'Choose wisely. Or randomly.', 'Rainbow mode: activated.'],
+  },
+  { _id: 6, command: 'red', responses: ['Red is not a personality. Or is it?'] },
+  { _id: 7, command: 'beige', responses: ['Beige is a choice. A brave one.'] },
+  {
+    _id: 8,
+    command: 'new color',
+    responses: ['Fresh paint, fresh you.', 'Your name looks great in that shade.', 'Eris approves of this color choice.'],
+  },
+  { _id: 9, command: 'pastel', responses: ['Pastels are just colors that relaxed.'] },
+  { _id: 10, command: 'neon', responses: ['Nobody expects the neon.'] },
+  { _id: 11, command: 'black and white', responses: ['Monochrome is so last season.'] },
+  {
+    _id: 12,
+    command: 'eris',
+    responses: ['Hey there, gorgeous colors incoming!', 'I contain multitudes. Of hex codes.', 'Every server needs a little chaos.', 'Colors make everything better.'],
+  },
 ]

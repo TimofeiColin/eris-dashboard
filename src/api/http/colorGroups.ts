@@ -5,17 +5,19 @@ import type {
   Entity,
   OkResponse,
 } from '../contracts'
-import { http } from './client.ts'
+import { http, nullIfNotFound } from './client.ts'
 
 const groupPath = (id: Entity['_id']) => `color-groups/${encodeURIComponent(id)}`
 
-// `color-group` answers 200 with `{ message }` instead of a group when nothing matches.
+// When nothing matches, `color-group` answers either 404 or 200 with `{ message }`.
 const isGroup = (value: unknown): value is ColorGroupName =>
   typeof value === 'object' && value !== null && '_id' in value
 
 export const httpColorGroupsApi: ColorGroupsApi = {
   async find(query, signal) {
-    const result = await http.get<unknown>('color-group', { params: { ...query }, signal })
+    const result = await nullIfNotFound(
+      http.get<unknown>('color-group', { params: { ...query }, signal }),
+    )
     return isGroup(result) ? result : null
   },
   
